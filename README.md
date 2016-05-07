@@ -3,6 +3,8 @@ my-markdown-parser
 
 Parsing markdown by using lex and yacc.
 
+[Article On Qiita (In Japanese)](http://qiita.com/toshiya/items/7fa39bd9c06fc1c0a44c)
+
 # Requirement
 
 You need to install yacc and lex.
