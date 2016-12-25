@@ -8,9 +8,9 @@ int yywrap(void) {
 %}
 
 %%
-"#B" return SB;
-"#R" return SR;
-"#L" return SL;
+"# B" return SB;
+"## R" return SR;
+"### L" return SL;
 "\n" return CR;
 [^#\n ]+ {
     char* text;
