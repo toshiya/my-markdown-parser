@@ -21,12 +21,3 @@ int yywrap(void) {
 }
 . /* ignore */
 %%
-
-// For Debug token.l
-//int main(void) {
-//    int ret = IGNORE;
-//    while(ret != END) {
-//        ret = yylex();
-//    }
-//    return 0;
-//}
