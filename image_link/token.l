@@ -10,12 +10,8 @@ yywrap(void)
 }
 %}
 %%
-"["      return LINK_OPEN;
 "!["     return IMAGE_OPEN;
-"]"      return CLOSE;
-"("      return LEFT_PAR;
-")"      return RIGHT_PAR;
-"\n"     return CR;
+[\n]+     return CR;
 [0-9A-Za-z_,\-\.:/]+ {
     char* temp;
     int len = strlen(yytext);
@@ -24,5 +20,6 @@ yywrap(void)
     yylval.literal_value = temp;
     return LITERAL;
 }
+.   return (int) yytext[0];
 %%
 
