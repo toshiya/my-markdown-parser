@@ -14,7 +14,7 @@ int yywrap(void) {
 "\n" return CR;
 [^#\n ]+ {
     char* text;
-    text = calloc(sizeof(char), strlen(yytext) + 1);
+    text = (char*) calloc(sizeof(char), strlen(yytext) + 1);
     strcpy(text, yytext);
     yylval.text_value = text;
     return TEXT;
