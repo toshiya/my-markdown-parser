@@ -1,6 +1,7 @@
 %{
 #include <stdio.h>
 #include "string.h"
+#include "node.h"
 #include "y.tab.h"
 int yywrap(void) {
     return 1; 
