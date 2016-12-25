@@ -10,7 +10,7 @@ char*        literal_value;
 char*        string_value;
 }
 %token <literal_value>  LITERAL
-%token LINK_OPEN IMAGE_OPEN CLOSE LEFT_PAR RIGHT_PAR CR
+%token IMAGE_OPEN CR
 %type <string_value> blocks block link element image
 %%
 line_list
@@ -47,7 +47,7 @@ block
     | link 
     ;
 link 
-    : LINK_OPEN element CLOSE LEFT_PAR LITERAL RIGHT_PAR
+    : '[' element ']' '(' LITERAL ')'
     {
         char* buf;
         int lengths[2];
@@ -69,7 +69,7 @@ element
     | LITERAL
     ;
 image
-    : IMAGE_OPEN LITERAL CLOSE LEFT_PAR LITERAL RIGHT_PAR
+    : IMAGE_OPEN LITERAL ']' '(' LITERAL ')'
     {
         char* buf;
         int lengths[2];
@@ -101,7 +101,6 @@ int main(void)
     extern int yyparse(void);
     extern FILE *yyin;
 
-    //yydebug = 1;
     yyin = stdin;
     if (yyparse()) {
         fprintf(stderr, "Error ! Error ! Error !\n");
