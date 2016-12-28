@@ -7,6 +7,9 @@ extern "C" {
 
 #include <jansson.h>
 
+void* calloc_pool(size_t count, size_t size);
+void free_pool();
+
 typedef struct {
    int num;
    void** values;

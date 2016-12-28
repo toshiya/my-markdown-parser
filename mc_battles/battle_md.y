@@ -25,10 +25,14 @@
 
 %%
 battle
-    : SB attributes CR white_lines rounds
+    : SB attributes empty_lines rounds
     {
         Array as = $2;
-        Array rs = $5;
+        if (as.num < 5) {
+            printf("Battle Format Error. # B requires 5 arguments. # B name mc1 mc2 winner date.\n");
+            exit(1);
+        }
+        Array rs = $4;
         Battle *b = battle_create(as.values[4], as.values[3], as.values[2], as.values[1], as.values[0], rs);
         printf("%s", json_dumps(battle_to_json(b), 0));
     }
@@ -48,10 +52,14 @@ rounds
     }
 
 round
-    : SR attributes CR white_lines lyrics
+    : SR attributes empty_lines lyrics
     {
         Array as = $2;
-        Array ls = $5;
+        if (as.num < 1) {
+            printf("Round Format Error. ## R requires 1 argument. ## R winner");
+            exit(1);
+        }
+        Array ls = $4;
         Round* r = round_create(as.values[0], ls);
         $$ = r;
     }
@@ -75,31 +83,35 @@ lyric
     {
         char* content = $4;
         Array as = $2;
+        if (as.num < 1) {
+            printf("Lyric Format Error. ### L requires 1 argument. ### L mc");
+            exit(1);
+        }
         Lyric* l = lyric_create(as.values[0], content);
         $$ = l;
     }
 
-white_lines
-    : white_lines CR
+empty_lines
+    : empty_lines CR
     |
     ;
 
 texts
-    : texts white_lines
+    : texts CR
     {
         $$ = $1;
     }
     | texts TEXT
     {
         char* text;
-        text = calloc(strlen($1) + strlen($2) + 2, sizeof(char));
+        text = calloc_pool(strlen($1) + strlen($2) + 2, sizeof(char));
         sprintf(text, "%s %s", $1, $2);
         $$ = text;
     }
     | TEXT
     {
         char* text;
-        text = calloc(strlen($1) + 1, sizeof(char));
+        text = calloc_pool(strlen($1) + 1, sizeof(char));
         strcpy(text, $1);
         $$ = text;
     }
@@ -108,7 +120,7 @@ attributes
     : TEXT attributes
     {
        char* text;
-       text = calloc(strlen($1) + 1, sizeof(char));
+       text = calloc_pool(strlen($1) + 1, sizeof(char));
        strcpy(text, $1);
        Array as = $2;
        array_push(&as, text);
@@ -117,7 +129,7 @@ attributes
     | TEXT
     {
        char* text;
-       text = calloc(strlen($1) + 1, sizeof(char));
+       text = calloc_pool(strlen($1) + 1, sizeof(char));
        strcpy(text, $1);
        Array as = array_create();
        array_push(&as, text);
@@ -145,4 +157,8 @@ int main(void)
         fprintf(stderr, "Error!\n");
         exit(1);
     }
+
+    free_pool();
+
+    return 0;
 }

@@ -6,16 +6,13 @@ all: bin/battle_md
 y.tab.c: battle_md.y
 	yacc -dv battle_md.y
 
-y.tab.h: battle_md.y
-	yacc -dv battle_md.y
-
 lex.yy.c: token.l y.tab.h
 	lex token.l
 
-battle_md: y.tab.c lex.yy.c node.c
+bin/battle_md: y.tab.c lex.yy.c node.c
 	mkdir -p bin
 	yacc -dv battle_md.y
-	clang -o bin/$@ $^ -L$(JANSSON_LIB) -ljansson
+	clang -o $@ $^ -L$(JANSSON_LIB) -ljansson
 
 example: bin/battle_md
 	echo "execute the following command!!!"
