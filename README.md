@@ -28,6 +28,7 @@ You need to install yacc and lex.
 ## Build
 
 ```bash
+cd image_link
 yacc -dv my_markdown.y 
 lex token.l
 gcc -o my_markdown_parser y.tab.c lex.yy.c
@@ -36,5 +37,6 @@ gcc -o my_markdown_parser y.tab.c lex.yy.c
 ## Execution
 
 ```
+cd image_link
 cat sample/sample.md | ./my_markdown_parser
 ```
